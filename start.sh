@@ -43,8 +43,12 @@ if ${INPUT_FORCE_WITH_LEASE}; then
     _FORCE_OPTION='--force-with-lease'
 fi
 
-if ${INPUT_TAGS} && test "$INPUT_BRANCH" != 'ALL' ; then
-    _TAGS='--tags'
+if ${INPUT_TAGS} ; then
+    if test "$INPUT_BRANCH" != 'ALL' ; then
+        XD_BRANCH_OPTION='--mirror'
+    else
+        _TAGS='--tags'
+    fi
 fi
 
 cd ${INPUT_DIRECTORY}
