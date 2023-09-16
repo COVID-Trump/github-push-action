@@ -11,7 +11,16 @@ _ATOMIC_OPTION=''
 _FORCE_OPTION=''
 REPOSITORY=${INPUT_REPOSITORY:-$GITHUB_REPOSITORY}
 
-echo "Push to branch $INPUT_BRANCH";
+# --all patch starts
+if [ "$INPUT_BRANCH" = 'ALL' ] ; then
+  XD_BRANCH_OPTION='--all'
+  echo 'Push to all branches'
+else
+  XD_BRANCH_OPTION="HEAD:${INPUT_BRANCH}"
+  echo "Push to branch $INPUT_BRANCH"
+fi
+# --all patch ends
+
 [ -z "${INPUT_GITHUB_TOKEN}" ] && {
     echo 'Missing input "github_token: ${{ secrets.GITHUB_TOKEN }}".';
     exit 1;
@@ -49,7 +58,7 @@ fi
 git config --local --add safe.directory ${INPUT_DIRECTORY}
 
 if ! ${INPUT_FORCE_WITH_LEASE}; then
-  ADDITIONAL_PARAMETERS="${remote_repo} HEAD:${INPUT_BRANCH}"
+  ADDITIONAL_PARAMETERS="${remote_repo} $XD_BRANCH_OPTION"
 fi
 
 git push $ADDITIONAL_PARAMETERS $_ATOMIC_OPTION --follow-tags $_FORCE_OPTION $_TAGS;
