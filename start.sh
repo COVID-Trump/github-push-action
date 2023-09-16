@@ -43,7 +43,7 @@ if ${INPUT_FORCE_WITH_LEASE}; then
     _FORCE_OPTION='--force-with-lease'
 fi
 
-if ${INPUT_TAGS}; then
+if ${INPUT_TAGS} && test "$INPUT_BRANCH" != 'ALL' ; then
     _TAGS='--tags'
 fi
 
