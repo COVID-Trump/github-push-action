@@ -44,9 +44,8 @@ if ${INPUT_FORCE_WITH_LEASE}; then
 fi
 
 if ${INPUT_TAGS} ; then
-    if test "$INPUT_BRANCH" != 'ALL' ; then
+    if test "$INPUT_BRANCH" == 'ALL' ; then
         XD_BRANCH_OPTION='--mirror'
-        INPUT_BRANCH=''
     else
         _TAGS='--tags'
     fi
